@@ -153,7 +153,7 @@ body {
   cursor: not-allowed;
 }
 
-.playlister-song, .playlister-song-dragged-to{ 
+.playlister-song, .playlister-song-dragged-to { 
   display:flex;
   align-items: center;
   font-size: 16pt;
@@ -162,6 +162,12 @@ body {
   padding: 20px;
   border-radius: 20px;
   background-color: var(--swatch-complement);
+}
+
+.delete-song-button {
+  margin: 50px;
+  float:right;
+  font-size:16pt;
 }
 
 input {
