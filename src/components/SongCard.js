@@ -76,9 +76,8 @@ export default class SongCard extends React.Component {
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
                 draggable="true"
-            ><span>
-                {song.title} by {song.artist}
-            </span>
+            >
+            <a href={`https://www.youtube.com/watch?v=${song.youTubeId}`}>{song.title} by {song.artist}</a>
             <input
                 type = "button"
                 id={"delete-song-" + num}
