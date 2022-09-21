@@ -280,6 +280,8 @@ class App extends React.Component {
         let canRedo = this.tps.hasTransactionToRedo();
         let canClose = this.state.currentList !== null;
         return (
+            <body>
+               <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"></link> 
             <div id="root">
                 <Banner />
                 <SidebarHeading
@@ -312,6 +314,7 @@ class App extends React.Component {
                     deleteListCallback={this.deleteMarkedList}
                 />
             </div>
+            </body>
         );
     }
 }
