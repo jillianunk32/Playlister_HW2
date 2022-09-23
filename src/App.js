@@ -274,6 +274,12 @@ class App extends React.Component {
         let modal = document.getElementById("delete-list-modal");
         modal.classList.remove("is-visible");
     }
+    addSong = () => {
+        let list = this.state.currentList;
+        let song = { "artist" : "Unknown", "title" : "Untitled", "youTubeId" :"dQw4w9WgXcQ"};
+        list.songs.push(song);
+        this.setStateWithUpdatedList(list);
+    }
     render() {
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
@@ -302,6 +308,7 @@ class App extends React.Component {
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
+                    addSongCallback={this.addSong}
                 />
                 <PlaylistCards
                     currentList={this.state.currentList}
