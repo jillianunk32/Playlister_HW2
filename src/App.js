@@ -11,6 +11,7 @@ import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.js';
 import DeleteSongModal from './components/DeleteSongModal.js';
+import EditSongModal from './components/EditSongModal.js';
 
 // THESE REACT COMPONENTS ARE IN OUR UI
 import Banner from './components/Banner.js';
@@ -38,7 +39,7 @@ class App extends React.Component {
             listKeyPairMarkedForDeletion : null,
             currentList : null,
             sessionData : loadedSessionData,
-            songMarkedForDeletion : null
+            songMarked : null
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -288,7 +289,7 @@ class App extends React.Component {
             listKeyPairMarkedForDeletion : null,
             currentList: list,
             sessionData: this.state.sessionData,
-            songMarkedForDeletion: list.songs[index-1]
+            songMarked: list.songs[index-1]
         }), () => {
             // DELETING THE LIST FROM PERMANENT STORAGE
             // IS AN AFTER EFFECT
@@ -306,9 +307,51 @@ class App extends React.Component {
     }
     deleteSong = () => {
         let list = this.state.currentList;
-        let oursong = list.songs.indexOf(this.state.songMarkedForDeletion);
+        let oursong = list.songs.indexOf(this.state.songMarked);
         list.songs.splice(oursong, 1);
         this.hideDeleteSongModal();
+        this.setStateWithUpdatedList(list);
+    }
+    markSongForEdit = (index) => {
+        let list = this.state.currentList;
+        this.setState(prevState => ({
+            listKeyPairMarkedForDeletion : null,
+            currentList: list,
+            sessionData: this.state.sessionData,
+            songMarked: list.songs[index-1]
+        }), () => {
+            // DELETING THE LIST FROM PERMANENT STORAGE
+            // IS AN AFTER EFFECT
+            this.showEditSongModal();
+        });
+    }
+    showEditSongModal() {
+        let modal = document.getElementById("edit-song-modal");
+        modal.classList.add("is-visible");
+    }
+    // THIS FUNCTION IS FOR HIDING THE MODAL
+    hideEditSongModal() {
+        let modal = document.getElementById("edit-song-modal");
+        modal.classList.remove("is-visible");
+    }
+    editSongArtist = (event) => {
+        let list = this.state.currentList;
+        let oursong = list.songs.indexOf(this.state.songMarked);
+        list.songs[oursong].artist = event.target.value;
+    }
+    editSongTitle = (event) => {
+        let list = this.state.currentList;
+        let oursong = list.songs.indexOf(this.state.songMarked);
+        list.songs[oursong].title = event.target.value;
+    }
+    editSongYoutube = (event) => {
+        let list = this.state.currentList;
+        let oursong = list.songs.indexOf(this.state.songMarked);
+        list.songs[oursong].youTubeId = event.target.value;  
+    }
+    editSong = () => {
+        let list = this.state.currentList;
+        this.hideEditSongModal();
         this.setStateWithUpdatedList(list);
     }
     render() {
@@ -344,7 +387,8 @@ class App extends React.Component {
                 <PlaylistCards
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction}
-                    deleteSongCallback={this.markSongForDeletion} />
+                    deleteSongCallback={this.markSongForDeletion}
+                    editSongCallback={this.markSongForEdit} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
@@ -353,9 +397,17 @@ class App extends React.Component {
                     deleteListCallback={this.deleteMarkedList}
                 />
                 <DeleteSongModal
-                    song={this.state.songMarkedForDeletion}
+                    song={this.state.songMarked}
                     hideDeleteSongModalCallback={this.hideDeleteSongModal}
                     deleteSongCallback={this.deleteSong}
+                />
+                <EditSongModal
+                    song={this.state.songMarked}
+                    hideEditSongModalCallback={this.hideEditSongModal}
+                    editSongCallback={this.editSong}
+                    editSongTitleCallback={this.editSongTitle}
+                    editSongArtistCallback={this.editSongArtist}
+                    editSongYoutubeCallback={this.editSongYoutube}
                 />
             </div>
             </body>

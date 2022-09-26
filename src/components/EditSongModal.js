@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 
-export default class DeleteSongModal extends Component {
+export default class EditSongModal extends Component {
     render() {
-        const { currentList, editSongCallback, hideEditSongModalCallback } = this.props;
+        const {song, editSongCallback, hideEditSongModalCallback,
+         editSongTitleCallback, editSongArtistCallback, editSongYoutubeCallback} = this.props;
         let title = "";
-        if(currentList!=null){
-            title = currentList.songs;
+        let artist = "";
+        let youtube = "";
+        if(song!=null){
+            title = song.title;
+            artist = song.artist;
+            youtube = song.youTubeId;
         }
         return (
             <div 
                 class="modal" 
-                id="delete-song-modal" 
+                id="edit-song-modal" 
                 data-animation="slideInOutLeft">
                     <div class="modal-root" id='verify-edit-song-root'>
                         <div class="modal-north">
@@ -18,9 +23,9 @@ export default class DeleteSongModal extends Component {
                         </div>
                         <div class="modal-center">
                             <div class="modal-center-content">
-                                Title <input type="text" id="edit-song-title-text" />
-                                Artist <input type="text" id="edit-song-artist-text"/>
-                                YouTube Id <input type="text" id="edit-song-youtubeId-text"/>
+                                <span>Title</span> <input type="text" id="edit-song-title-text" defaultValue={title} onChange={editSongTitleCallback}/>
+                                <span>Artist</span> <input type="text" id="edit-song-artist-text" defaultValue={artist} onChange={editSongArtistCallback}/>
+                                <span>YouTubeId</span> <input type="text" id="edit-song-youtubeId-text" defaultValue={youtube} onChange={editSongYoutubeCallback}/>
                             </div>
                         </div>
                         <div class="modal-south">

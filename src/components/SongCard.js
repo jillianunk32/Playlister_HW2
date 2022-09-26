@@ -9,6 +9,15 @@ export default class SongCard extends React.Component {
             draggedTo: false
         }
     }
+    handleClick = (event) => {
+        if (event.detail === 2) {
+            let spot = event.target.id;
+            spot = spot.substring(event.target.id.indexOf("-") + 1);
+            spot = spot.substring(spot.indexOf("-")+1);
+            spot = parseInt(spot);
+            this.props.editCallback(spot);
+        }
+    }
     handleDeleteSong = (event) => {
         event.preventDefault();
         let spot = event.target.id;
@@ -83,6 +92,7 @@ export default class SongCard extends React.Component {
                 onDragEnter={this.handleDragEnter}
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
+                onDoubleClick={this.handleClick}
                 draggable="true"
             > {num}.
             <a href={`https://www.youtube.com/watch?v=${song.youTubeId}`}>{song.title} by {song.artist}</a>
