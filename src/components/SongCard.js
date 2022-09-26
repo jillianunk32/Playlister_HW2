@@ -9,6 +9,14 @@ export default class SongCard extends React.Component {
             draggedTo: false
         }
     }
+    handleDeleteSong = (event) => {
+        event.preventDefault();
+        let spot = event.target.id;
+        spot = spot.substring(event.target.id.indexOf("-") + 1);
+        spot = spot.substring(spot.indexOf("-")+1);
+        spot = parseInt(spot);
+        this.props.deleteCallback(spot);
+    }
     handleDragStart = (event) => {
         event.dataTransfer.setData("song", event.target.id);
         this.setState(prevState => ({

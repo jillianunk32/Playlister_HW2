@@ -10,6 +10,7 @@ import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.js';
+import DeleteSongModal from './components/DeleteSongModal.js';
 
 // THESE REACT COMPONENTS ARE IN OUR UI
 import Banner from './components/Banner.js';
@@ -36,7 +37,8 @@ class App extends React.Component {
         this.state = {
             listKeyPairMarkedForDeletion : null,
             currentList : null,
-            sessionData : loadedSessionData
+            sessionData : loadedSessionData,
+            songMarkedForDeletion : null
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -280,6 +282,35 @@ class App extends React.Component {
         list.songs.push(song);
         this.setStateWithUpdatedList(list);
     }
+    markSongForDeletion = (index) => {
+        let list = this.state.currentList;
+        this.setState(prevState => ({
+            listKeyPairMarkedForDeletion : null,
+            currentList: list,
+            sessionData: this.state.sessionData,
+            songMarkedForDeletion: list.songs[index-1]
+        }), () => {
+            // DELETING THE LIST FROM PERMANENT STORAGE
+            // IS AN AFTER EFFECT
+            this.showDeleteSongModal();
+        });
+    }
+    showDeleteSongModal() {
+        let modal = document.getElementById("delete-song-modal");
+        modal.classList.add("is-visible");
+    }
+    // THIS FUNCTION IS FOR HIDING THE MODAL
+    hideDeleteSongModal() {
+        let modal = document.getElementById("delete-song-modal");
+        modal.classList.remove("is-visible");
+    }
+    deleteSong = () => {
+        let list = this.state.currentList;
+        let oursong = list.songs.indexOf(this.state.songMarkedForDeletion);
+        list.songs.splice(oursong, 1);
+        this.hideDeleteSongModal();
+        this.setStateWithUpdatedList(list);
+    }
     render() {
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
@@ -312,13 +343,19 @@ class App extends React.Component {
                 />
                 <PlaylistCards
                     currentList={this.state.currentList}
-                    moveSongCallback={this.addMoveSongTransaction} />
+                    moveSongCallback={this.addMoveSongTransaction}
+                    deleteSongCallback={this.markSongForDeletion} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
                     listKeyPair={this.state.listKeyPairMarkedForDeletion}
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                     deleteListCallback={this.deleteMarkedList}
+                />
+                <DeleteSongModal
+                    song={this.state.songMarkedForDeletion}
+                    hideDeleteSongModalCallback={this.hideDeleteSongModal}
+                    deleteSongCallback={this.deleteSong}
                 />
             </div>
             </body>
