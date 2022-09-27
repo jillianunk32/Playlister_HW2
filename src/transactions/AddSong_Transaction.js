@@ -1,4 +1,4 @@
-import jsTPS_Transaction from "../../common/jsTPS.js"
+import jsTPS_Transaction from "../common/jsTPS.js"
 /**
  * AddSong_Transaction
  * 
@@ -8,19 +8,16 @@ import jsTPS_Transaction from "../../common/jsTPS.js"
  * @author Jillian Unkenholz
  */
 export default class AddSong_Transaction extends jsTPS_Transaction {
-    constructor(initModel, initNewSong) {
+    constructor(initApp) {
         super();
-        this.model = initModel;
-        this.newSong = initNewSong;
+        this.app = initApp;
     }
 
     doTransaction() {
-        this.model.addSong(this.newSong);
+        this.app.addSong();
     }
     
     undoTransaction() {
-        let song = document.getElementById("playlist-card-"+ (this.model.currentList.songs.length));
-        this.model.currentList.songs.length--;
-        song.remove();
+        this.app.deleteSong(this.app.state.currentList.songs.length-1, 1);
     }
 }

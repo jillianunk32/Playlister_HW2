@@ -1,4 +1,4 @@
-import jsTPS_Transaction from "../../common/jsTPS.js"
+import jsTPS_Transaction from "../common/jsTPS.js"
 /**
  * DeleteSong_Transaction
  * 
@@ -8,25 +8,20 @@ import jsTPS_Transaction from "../../common/jsTPS.js"
  * @author Jillian Unkenholz
  */
 export default class DeleteSong_Transaction extends jsTPS_Transaction {
-    constructor(initModel, initIndex) {
+    constructor(initApp) {
         super();
-        this.model = initModel;
-        this.index = initIndex;
-        this.song = this.model.currentList.songs[this.index];
+        this.app = initApp;
+        this.index = this.app.state.currentList.songs.indexOf(this.app.state.songMarked);
+        this.song = this.app.state.songMarked;
     }
 
     doTransaction() {
-        this.model.removeSong(this.index);
+        this.index = this.app.state.currentList.songs.indexOf(this.app.state.songMarked);
+        this.app.deleteSong();
     }
     
     undoTransaction() {
-        this.model.currentList.songs.push(this.model.currentList.songs[this.model.currentList.songs.length-1]);
-        for (let i = this.model.currentList.songs.length-2; i>this.index; i--){
-            let temp = this.model.currentList.songs[i];
-            this.model.currentList.songs[i+1]=temp;
-        }
-        this.model.currentList.songs[this.index]=this.song;
-        this.model.view.refreshPlaylist(this.model.currentList);
-        this.model.view.controller.registerItemHandlers();
+        this.app.state.currentList.songs.splice(this.index, 0, this.song);
+        this.app.setStateWithUpdatedList(this.app.state.currentList);
     }
 }

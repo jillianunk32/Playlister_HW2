@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 export default class EditSongModal extends Component {
     render() {
-        const {song, editSongCallback, hideEditSongModalCallback,
-         editSongTitleCallback, editSongArtistCallback, editSongYoutubeCallback} = this.props;
+        const {song, editSongCallback, hideEditSongModalCallback, editSongValuesCallback} = this.props;
         let title = "";
         let artist = "";
         let youtube = "";
@@ -24,11 +23,11 @@ export default class EditSongModal extends Component {
                         <div class="modal-center">
                             <div class="modal-center-content">
                                 <span class="modal-prompt"id="title-prompt">Title</span> 
-                                    <input class="modal-textfield" type="text" id="edit-song-modal-title-textfield" defaultValue={title} onChange={editSongTitleCallback}/>
+                                    <input class="modal-textfield"name="title"type="text" id="edit-song-modal-title-textfield" defaultValue={title} onChange={editSongValuesCallback}/>
                                 <span class="modal-prompt"id="artist-prompt">Artist</span> 
-                                    <input class="modal-textfield" type="text" id="edit-song-modal-artist-textfield" defaultValue={artist} onChange={editSongArtistCallback}/>
+                                    <input class="modal-textfield" name="artist"type="text" id="edit-song-modal-artist-textfield" defaultValue={artist} onChange={editSongValuesCallback}/>
                                 <span class="modal-prompt" id="you-tube-id-prompt">YouTubeId</span>
-                                    <input class="modal-textfield" type="text" id="edit-song-modal-youTubeId-textfield" defaultValue={youtube} onChange={editSongYoutubeCallback}/> 
+                                    <input class="modal-textfield" name="youTubeId"type="text" id="edit-song-modal-youTubeId-textfield" defaultValue={youtube} onChange={editSongValuesCallback}/> 
                             </div>
                         </div>
                         <div class="modal-south">
