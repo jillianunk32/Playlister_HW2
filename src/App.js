@@ -320,8 +320,6 @@ class App extends React.Component {
             sessionData: this.state.sessionData,
             songMarked: list.songs[index-1]
         }), () => {
-            // DELETING THE LIST FROM PERMANENT STORAGE
-            // IS AN AFTER EFFECT
             this.showEditSongModal();
         });
     }
@@ -329,7 +327,6 @@ class App extends React.Component {
         let modal = document.getElementById("edit-song-modal");
         modal.classList.add("is-visible");
     }
-    // THIS FUNCTION IS FOR HIDING THE MODAL
     hideEditSongModal() {
         let modal = document.getElementById("edit-song-modal");
         modal.classList.remove("is-visible");
@@ -360,9 +357,8 @@ class App extends React.Component {
         let canRedo = this.tps.hasTransactionToRedo();
         let canClose = this.state.currentList !== null;
         return (
-            <body>
-               <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"></link> 
             <div id="root">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"></link> 
                 <Banner />
                 <SidebarHeading
                     createNewListCallback={this.createNewList}
@@ -410,7 +406,6 @@ class App extends React.Component {
                     editSongYoutubeCallback={this.editSongYoutube}
                 />
             </div>
-            </body>
         );
     }
 }

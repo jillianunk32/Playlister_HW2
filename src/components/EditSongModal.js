@@ -23,9 +23,12 @@ export default class EditSongModal extends Component {
                         </div>
                         <div class="modal-center">
                             <div class="modal-center-content">
-                                <span>Title</span> <input type="text" id="edit-song-title-text" defaultValue={title} onChange={editSongTitleCallback}/>
-                                <span>Artist</span> <input type="text" id="edit-song-artist-text" defaultValue={artist} onChange={editSongArtistCallback}/>
-                                <span>YouTubeId</span> <input type="text" id="edit-song-youtubeId-text" defaultValue={youtube} onChange={editSongYoutubeCallback}/>
+                                <span class="modal-prompt"id="title-prompt">Title</span> 
+                                    <input class="modal-textfield" type="text" id="edit-song-modal-title-textfield" defaultValue={title} onChange={editSongTitleCallback}/>
+                                <span class="modal-prompt"id="artist-prompt">Artist</span> 
+                                    <input class="modal-textfield" type="text" id="edit-song-modal-artist-textfield" defaultValue={artist} onChange={editSongArtistCallback}/>
+                                <span class="modal-prompt" id="you-tube-id-prompt">YouTubeId</span>
+                                    <input class="modal-textfield" type="text" id="edit-song-modal-youTubeId-textfield" defaultValue={youtube} onChange={editSongYoutubeCallback}/> 
                             </div>
                         </div>
                         <div class="modal-south">
