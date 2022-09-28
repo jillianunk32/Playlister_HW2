@@ -369,12 +369,14 @@ class App extends React.Component {
         let canUndo = this.tps.hasTransactionToUndo();
         let canRedo = this.tps.hasTransactionToRedo();
         let canClose = this.state.currentList !== null;
+        let canAddList = this.state.currentList ==null;
         return (
             <div id="root">
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"></link> 
                 <Banner />
                 <SidebarHeading
                     createNewListCallback={this.createNewList}
+                    canAddList={canAddList}
                 />
                 <SidebarList
                     currentList={this.state.currentList}
