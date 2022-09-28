@@ -390,6 +390,7 @@ class App extends React.Component {
         }
     }
     render() {
+        this.sortKeyNamePairsByName(this.state.sessionData.keyNamePairs);
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
         let canRedo = this.tps.hasTransactionToRedo();
