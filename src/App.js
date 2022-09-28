@@ -236,6 +236,7 @@ class App extends React.Component {
             list.songs[end] = temp;
         }
         this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(this.state.currentList);
     }
     // THIS FUNCTION ADDS A MoveSong_Transaction TO THE TRANSACTION STACK
     addMoveSongTransaction = (start, end) => {
@@ -286,6 +287,7 @@ class App extends React.Component {
         let song = { "artist" : "Unknown", "title" : "Untitled", "youTubeId" :"dQw4w9WgXcQ"};
         list.songs.push(song);
         this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(this.state.currentList);
     }
     // THIS FUNCTION ADDS A MoveSong_Transaction TO THE TRANSACTION STACK
     addAddSongTransaction = () => {
@@ -324,6 +326,7 @@ class App extends React.Component {
         list.songs.splice(oursong, 1);
         this.hideDeleteSongModal();
         this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(this.state.currentList);
     }
     markSongForEdit = (index) => {
         let list = this.state.currentList;
@@ -356,6 +359,7 @@ class App extends React.Component {
         list.songs.splice(oursongI, 1, this.state.currentSong);
         this.hideEditSongModal();
         this.setStateWithUpdatedList(list);
+        this.db.mutationUpdateList(this.state.currentList);
     }
     addEditSongTransaction = () => {
         let list = this.state.currentList;
@@ -364,6 +368,27 @@ class App extends React.Component {
         let transaction = new EditSong_Transaction(this, this.state.songMarked, oursongI);
         this.tps.addTransaction(transaction);
     }
+    handleKeyDown = (event)=>{
+        console.log("key down" + event);
+        console.log(event.key);
+        console.log(event.ctrlKey);
+        if(event.key==="z" && event.ctrlKey){
+            if (this.tps.hasTransactionToUndo()) {
+                this.tps.undoTransaction();
+    
+                // MAKE SURE THE LIST GETS PERMANENTLY UPDATED
+                this.db.mutationUpdateList(this.state.currentList);
+            }
+        }
+        else if(event.key==="y" && event.ctrlKey){
+            if (this.tps.hasTransactionToRedo()) {
+                this.tps.doTransaction();
+    
+                // MAKE SURE THE LIST GETS PERMANENTLY UPDATED
+                this.db.mutationUpdateList(this.state.currentList);
+            }
+        }
+    }
     render() {
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
@@ -371,7 +396,7 @@ class App extends React.Component {
         let canClose = this.state.currentList !== null;
         let canAddList = this.state.currentList ==null;
         return (
-            <div id="root">
+            <div id="root" onKeyDown={this.handleKeyDown}>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"></link> 
                 <Banner />
                 <SidebarHeading
@@ -399,7 +424,8 @@ class App extends React.Component {
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction}
                     deleteSongCallback={this.markSongForDeletion}
-                    editSongCallback={this.markSongForEdit} />
+                    editSongCallback={this.markSongForEdit}
+                 />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
