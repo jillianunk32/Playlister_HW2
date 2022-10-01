@@ -185,6 +185,7 @@ class App extends React.Component {
             // AN AFTER EFFECT IS THAT WE NEED TO MAKE SURE
             // THE TRANSACTION STACK IS CLEARED
             this.tps.clearAllTransactions();
+            this.setStateWithUpdatedList(newCurrentList);
         });
     }
     // THIS FUNCTION BEGINS THE PROCESS OF CLOSING THE CURRENT LIST
@@ -369,9 +370,6 @@ class App extends React.Component {
         this.tps.addTransaction(transaction);
     }
     handleKeyDown = (event)=>{
-        console.log("key down" + event);
-        console.log(event.key);
-        console.log(event.ctrlKey);
         if(event.key==="z" && event.ctrlKey){
             if (this.tps.hasTransactionToUndo()) {
                 this.tps.undoTransaction();

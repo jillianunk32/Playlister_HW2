@@ -16,13 +16,10 @@ export default class EditSong_Transaction extends jsTPS_Transaction {
     }
 
     doTransaction() {
-        console.log(this.song);
         this.app.editSong();
     }
     
     undoTransaction() {
-        console.log(" song inside undo");
-        console.log(this.song);
         this.app.state.currentList.songs[this.index]=this.song;
         this.app.setStateWithUpdatedList(this.app.state.currentList);
     }
